@@ -12,7 +12,7 @@ public class MedicalProfessional {
     String getName(){
         return this.name;
     }
-    String getSpecialty(){
+    String getSpecialization(){
         return this.specialization;
     }
     void setName(String name){
