@@ -7,7 +7,7 @@ public class Hospital {
         this.address = address;
     }
     public void print(){
-        System.out.println("Hospital: " + name + ", Address" + address);
+        System.out.println("Hospital: " + name + ", Address: " + address);
     }
     String getName(){
         return this.name;

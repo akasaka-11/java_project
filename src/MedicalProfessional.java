@@ -7,7 +7,7 @@ public class MedicalProfessional {
         this.specialization = specialization;
     }
     public void print(){
-        System.out.println("Doctor: " + name + ", Specialization" + specialization);
+        System.out.println("Doctor: " + name + ", Specialization: " + specialization);
     }
     String getName(){
         return this.name;
