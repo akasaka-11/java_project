@@ -21,4 +21,16 @@ public class Hospital {
     void setAddress(String address){
         this.address = address;
     }
+    @Override
+    public String toString(){
+        return "Hospital: " + name + ", address: " + address;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj;
+    }
+    @Override
+    public int hashCode() {
+        return name.hashCode() + address.hashCode();
+    }
 }

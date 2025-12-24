@@ -1,22 +1,19 @@
-public class MedicalProfessional {
-    private String name;
+public class MedicalProfessional extends Person {
     private String specialization;
 
     MedicalProfessional(String name, String specialization) {
-        this.name = name;
+        super(name);
         this.specialization = specialization;
     }
     public void print(){
-        System.out.println("Doctor: " + name + ", Specialization: " + specialization);
+        System.out.println("Doctor: " + getName() + ", Specialization: " + specialization);
     }
-    String getName(){
-        return this.name;
-    }
-    String getSpecialization(){
+    @Override
+    public String toString(){
+        return "Doctor name: " + getName() + ", specialization: " + this.specialization;
+    };
+    public String getSpecialization(){
         return this.specialization;
-    }
-    void setName(String name){
-        this.name = name;
     }
     void setSpecialization(String specialization){
         this.specialization = specialization;
