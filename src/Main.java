@@ -1,55 +1,58 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 public class Main {
     public static void main(String[] args) {
+        try {
+            HospitalDAO hospitalDAO = new HospitalDAO();
+            PatientDAO patientDAO = new PatientDAO();
 
-    Patient p1 = new Patient("Aidos Nurgaliyev",23,"Appendicitis");
-    Patient p2 = new Patient("Rasul Bekmuratov",27,"Gastritis");
+            // CREATE hospital
+            int hospitalId = hospitalDAO.createHospital(
+                    "Astana Medical Center",
+                    "Ahmet Baitursinuly street 49"
+            );
+            System.out.println("Created hospital id = " + hospitalId);
 
-    MedicalProfessional m1 = new MedicalProfessional("Zhanarbek Tulegenov","Surgeon");
-    MedicalProfessional m2 = new MedicalProfessional("Aidar Nurmagambetov","Gastroenterologist");
+            // CREATE patients
+            int p1Id = patientDAO.createPatient("Aidos Nurgaliyev", 23, "Appendicitis", hospitalId);
+            int p2Id = patientDAO.createPatient("Rasul Bekmuratov", 27, "Gastritis", hospitalId);
+            System.out.println("Created patients ids = " + p1Id + ", " + p2Id);
 
-    Hospital h1 = new Hospital("Astana Medical Center","Ahmet Baitursinuly street 49");
+            // READ
+            System.out.println("\nAll hospitals:");
+            hospitalDAO.getAllHospitals().forEach(System.out::println);
 
-    p1.print();
-    p2.print();
+            System.out.println("\nAll patients:");
+            patientDAO.getAllPatients().forEach(System.out::println);
 
-    m1.print();
-    m2.print();
+            // UPDATE
+            System.out.println("\nUpdating diagnosis for patient " + p2Id);
+            patientDAO.updateDiagnosis(p2Id, "Chronic Gastritis");
 
-    h1.print();
-    if(p1.getAge()> p2.getAge()) {
-        System.out.println(p1.getName() + " is older than " + p2.getName());
-    } else if (p1.getAge() < p2.getAge()) {
-        System.out.println(p2.getName() + " is older than " + p1.getName());
-    }
-    //Filtering patients older than 25
-        List<Patient> patients = new ArrayList<>();
-        patients.add(p1);
-        patients.add(p2);
+            System.out.println("Updating address for hospital " + hospitalId);
+            hospitalDAO.updateHospitalAddress(hospitalId, "New address 10");
 
-        List<Patient> filteredPatients = patients.stream()
-                .filter(p -> p.getAge() > 25)
-                .collect(Collectors.toList());
+            // READ after update
+            System.out.println("\nPatients after update:");
+            patientDAO.getAllPatients().forEach(System.out::println);
 
-        System.out.println("Filtered Patients (older than 25):");
-        filteredPatients.forEach(patient -> patient.print());
+            System.out.println("\nHospitals after update:");
+            hospitalDAO.getAllHospitals().forEach(System.out::println);
 
-        //Searching doctor by specialization
+            // DELETE
+            System.out.println("\nDeleting patient " + p1Id);
+            patientDAO.deletePatient(p1Id);
 
-        String searchSpecialization = "Gastroenterologist";
-        Optional<MedicalProfessional> foundDoctor = Optional.of(m1); // Search from a predefined list or any search logic
-        if (m2.getSpecialization().equalsIgnoreCase(searchSpecialization)) {
-            foundDoctor = Optional.of(m2);
+            System.out.println("Deleting hospital " + hospitalId);
+            hospitalDAO.deleteHospital(hospitalId);
+
+            // READ after delete
+            System.out.println("\nPatients after delete:");
+            patientDAO.getAllPatients().forEach(System.out::println);
+
+            System.out.println("\nHospitals after delete:");
+            hospitalDAO.getAllHospitals().forEach(System.out::println);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        foundDoctor.ifPresent(doctor -> System.out.println("Found Doctor: " + doctor));
-        // sorting patients by age
-        patients.sort(Comparator.comparingInt(Patient::getAge));
-
-        System.out.println("Sorted Patients by Age:");
-        patients.forEach(patient -> patient.print());
     }
 }
